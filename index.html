@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scaling AI for Healthcare Impact - Zohair Ajmal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .slide {
+            min-height: 100vh;
+            padding: 60px 40px;
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+            background: white;
+            margin: 20px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .slide.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            color: #764ba2;
+            font-size: 3em;
+            margin-bottom: 30px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            color: #667eea;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        
+        h3 {
+            color: #764ba2;
+            font-size: 1.6em;
+            margin: 25px 0 15px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 1.4em;
+            color: #666;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+        
+        .impact-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .impact-box:hover {
+            transform: translateX(10px);
+        }
+        
+        .tech-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+        
+        .tech-badge:hover {
+            transform: scale(1.1);
+        }
+        
+        .metric {
+            display: inline-flex;
+            align-items: center;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 15px 25px;
+            margin: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .metric:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .case-study {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .case-study:hover {
+            border-color: #667eea;
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin: 30px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 5px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #667eea;
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+        
+        .progress-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: rgba(255,255,255,0.3);
+            z-index: 1000;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+        
+        ul {
+            padding-left: 25px;
+            line-height: 1.8;
+        }
+        
+        li {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+        
+        .emoji {
+            font-size: 1.3em;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-indicator">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Slide 1: Title -->
+    <div class="slide active">
+        <h1>Scaling AI for Healthcare Impact</h1>
+        <p class="subtitle">From High-Performance Systems to Computational Pathology</p>
+        
+        <div style="margin: 60px 0;">
+            <h2 style="color: #333; font-size: 1.8em;">Zohair Ajmal</h2>
+            <p style="font-size: 1.2em; color: #666; margin: 20px 0;">Senior Software Engineer Candidate</p>
+            <p style="font-size: 1.1em; color: #666;">AstraZeneca - Computational Pathology</p>
+        </div>
+        
+        <div style="margin-top: 80px;">
+            <h3>Today's Journey</h3>
+            <div class="timeline">
+                <div class="timeline-item">My Journey: From ML Engineering to Scalable Healthcare Systems</div>
+                <div class="timeline-item">Core Competencies Aligned with Computational Pathology</div>
+                <div class="timeline-item">Case Studies: Turning Technical Solutions into Business Impact</div>
+                <div class="timeline-item">Vision: Advancing Medical Diagnostics Through Technology</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Professional Journey -->
+    <div class="slide">
+        <h1>My Professional Journey</h1>
+        <p class="subtitle">Building Scalable AI Systems with Real-World Impact</p>
+        
+        <div class="timeline" style="margin-top: 50px;">
+            <div class="timeline-item">
+                <h3>🏦 Allianz Global Investors (Current)</h3>
+                <p><strong>Quantitative Software Engineer (AVP)</strong></p>
+                <div class="impact-box">
+                    <p><span class="emoji">📈</span><strong>Business Impact:</strong> Scaled retail investor platform from 70 to <span class="highlight">20,000 requests/day</span></p>
+                    <p><span class="emoji">⚡</span><strong>Performance:</strong> Reduced response times from 15s to <span class="highlight">&lt;500ms</span> using advanced caching</p>
+                    <p><span class="emoji">🔄</span><strong>Reliability:</strong> Zero-downtime deployments for public-facing APIs</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <h3>🚗 Audi</h3>
+                <p><strong>ML Engineer - Anomaly Detection</strong></p>
+                <div class="impact-box">
+                    <p><span class="emoji">🤖</span><strong>ML Solution:</strong> Built anomaly detection for incident tickets using K-Means clustering</p>
+                    <p><span class="emoji">💰</span><strong>Cost Savings:</strong> <span class="highlight">$48,000 annually</span> by preventing repeated incidents</p>
+                    <p><span class="emoji">🎯</span><strong>Pattern Recognition:</strong> Similar to identifying anomalies in pathology images</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <h3>☁️ Nexedi</h3>
+                <p><strong>Machine Learning Engineer</strong></p>
+                <div class="impact-box">
+                    <p><span class="emoji">🛡️</span><strong>Security ML:</strong> Unsupervised learning for attack detection</p>
+                    <p><span class="emoji">📊</span><strong>Results:</strong> <span class="highlight">80% increase</span> in attack detection rate</p>
+                    <p><span class="emoji">🔍</span><strong>Data Processing:</strong> High-volume log analysis with Python</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Technical Alignment -->
+    <div class="slide">
+        <h1>Technical Alignment with Computational Pathology</h1>
+        <p class="subtitle">Bridging My Expertise to Medical Image Analysis</p>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>🖼️ Image & Data Processing</h3>
+                <ul>
+                    <li>High-performance Python systems processing millions of data points</li>
+                    <li>Pattern recognition in financial & incident data</li>
+                    <li><strong>Application:</strong> Whole slide image analysis at scale</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>🚀 Scalable AI Infrastructure</h3>
+                <ul>
+                    <li>FastAPI services handling 20k+ requests daily</li>
+                    <li>Distributed systems on Azure cloud</li>
+                    <li><strong>Application:</strong> Deploy pathology algorithms for clinical use</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>⚡ Performance Optimization</h3>
+                <ul>
+                    <li>30x performance improvement through caching</li>
+                    <li>Blue/Green deployments for zero downtime</li>
+                    <li><strong>Application:</strong> Real-time pathology analysis in clinical settings</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>🤝 Cross-functional Collaboration</h3>
+                <ul>
+                    <li>Led RFC process for team alignment</li>
+                    <li>Worked with 40+ teams at Amadeus</li>
+                    <li><strong>Application:</strong> Bridge pathologists, scientists, and clinicians</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div style="margin-top: 40px;">
+            <h3>Technical Stack Alignment</h3>
+            <div style="margin: 20px 0;">
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">Machine Learning</span>
+                <span class="tech-badge">Azure Cloud</span>
+                <span class="tech-badge">Docker/Kubernetes</span>
+                <span class="tech-badge">CI/CD</span>
+                <span class="tech-badge">Git/GitHub</span>
+                <span class="tech-badge">Performance Optimization</span>
+                <span class="tech-badge">API Development</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Case Study 1 -->
+    <div class="slide">
+        <h1>Case Study: Scaling Critical Systems</h1>
+        <p class="subtitle">Allianz Global Investors - Retail Investment Platform</p>
+        
+        <div class="case-study">
+            <h3>🎯 The Challenge</h3>
+            <p>Transform a compute-heavy Python service from handling 70 requests/day to supporting thousands of retail investors in real-time, while maintaining sub-second response times.</p>
+        </div>
+        
+        <div class="case-study">
+            <h3>💡 My Solution</h3>
+            <div class="grid">
+                <div>
+                    <h4>Architecture Redesign</h4>
+                    <ul>
+                        <li>Implemented multi-tier caching (Redis + Memcached)</li>
+                        <li>Designed cache warming strategies</li>
+                        <li>Built asynchronous processing pipelines</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Reliability Engineering</h4>
+                    <ul>
+                        <li>Blue/Green deployment for zero downtime</li>
+                        <li>Comprehensive disaster recovery</li>
+                        <li>Real-time monitoring and alerting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="case-study">
+            <h3>📊 Business Impact</h3>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                <div class="metric">
+                    <span class="metric-value">285x</span>
+                    <span>Scale Increase</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-value">30x</span>
+                    <span>Faster Response</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-value">0s</span>
+                    <span>Deployment Downtime</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="impact-box" style="margin-top: 40px;">
+            <h3>🔬 Relevance to Computational Pathology</h3>
+            <p>This experience directly translates to scaling pathology image analysis algorithms that need to process thousands of high-resolution slides while maintaining clinical-grade performance and reliability.</p>
+        </div>
+    </div>
+
+    <!-- Slide 5: Case Study 2 -->
+    <div class="slide">
+        <h1>Case Study: ML for Pattern Detection</h1>
+        <p class="subtitle">Audi - Intelligent Incident Management</p>
+        
+        <div class="case-study">
+            <h3>🎯 The Challenge</h3>
+            <p>Identify patterns in thousands of IT incident tickets to prevent recurring issues and reduce operational costs.</p>
+        </div>
+        
+        <div class="case-study">
+            <h3>💡 My ML Solution</h3>
+            <div class="grid">
+                <div>
+                    <h4>Algorithm Development</h4>
+                    <ul>
+                        <li>K-Means clustering for incident grouping</li>
+                        <li>TF-IDF vectorization for text analysis</li>
+                        <li>Anomaly detection for hotspot identification</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Implementation</h4>
+                    <ul>
+                        <li>Python Flask backend for real-time analysis</li>
+                        <li>Automated alerting system</li>
+                        <li>Interactive dashboard for pattern visualization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="case-study">
+            <h3>📊 Results</h3>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                <div class="metric">
+                    <span class="metric-value">$48k</span>
+                    <span>Annual Savings</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-value">85%</span>
+                    <span>Pattern Detection Rate</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-value">Real-time</span>
+                    <span>Processing</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="impact-box" style="margin-top: 40px;">
+            <h3>🔬 Parallel to Pathology</h3>
+            <p><strong>Pattern Recognition:</strong> Just as I detected anomalies in incident data, computational pathology requires identifying abnormal patterns in tissue samples.</p>
+            <p><strong>Clustering Techniques:</strong> Similar algorithms can group cell types, identify tumor regions, and classify tissue structures.</p>
+            <p><strong>Business Value:</strong> Both reduce costs and improve outcomes through early detection and prevention.</p>
+        </div>
+    </div>
+
+    <!-- Slide 6: Vision for AstraZeneca -->
+    <div class="slide">
+        <h1>My Vision for Computational Pathology at AstraZeneca</h1>
+        <p class="subtitle">Leveraging Technology to Transform Medical Diagnostics</p>
+        
+        <div class="case-study">
+            <h3>🎯 Immediate Contributions</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>Week 1-4</h4>
+                    <ul>
+                        <li>Understand current pathology pipeline architecture</li>
+                        <li>Identify performance bottlenecks</li>
+                        <li>Begin optimizing critical algorithms</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Month 2-3</h4>
+                    <ul>
+                        <li>Implement scalable deployment strategies</li>
+                        <li>Enhance algorithm performance metrics</li>
+                        <li>Establish monitoring and reliability frameworks</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="case-study">
+            <h3>🚀 Long-term Impact</h3>
+            <ul>
+                <li><strong>Scale:</strong> Enable processing of 10x more pathology images without proportional infrastructure costs</li>
+                <li><strong>Speed:</strong> Reduce diagnosis turnaround from days to hours through optimized pipelines</li>
+                <li><strong>Accuracy:</strong> Implement ensemble methods and quality checks to improve diagnostic precision</li>
+                <li><strong>Innovation:</strong> Bridge cutting-edge AI research with clinical practice through robust production systems</li>
+            </ul>
+        </div>
+        
+        <div class="impact-box">
+            <h3>🌍 Business & Patient Impact</h3>
+            <p><span class="emoji">👥</span><strong>For Patients:</strong> Faster, more accurate diagnoses leading to earlier treatment and better outcomes</p>
+            <p><span class="emoji">🏥</span><strong>For Clinicians:</strong> AI-assisted tools that augment expertise and reduce workload</p>
+            <p><span class="emoji">💼</span><strong>For AstraZeneca:</strong> Accelerated drug development through better biomarker discovery and clinical trial stratification</p>
+            <p><span class="emoji">📈</span><strong>Market Position:</strong> Leadership in AI-driven precision medicine</p>
+        </div>
+    </div>
+
+    <!-- Slide 7: Why Me -->
+    <div class="slide">
+        <h1>Why I'm the Right Fit</h1>
+        <p class="subtitle">Unique Combination of Skills for Computational Pathology Success</p>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>✅ Proven Track Record</h3>
+                <ul>
+                    <li>Scaled systems by 285x at Allianz</li>
+                    <li>Saved $48k annually through ML at Audi</li>
+                    <li>80% improvement in detection at Nexedi</li>
+                    <li>Led teams and cross-functional initiatives</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>🔧 Technical Excellence</h3>
+                <ul>
+                    <li>Deep Python expertise in production systems</li>
+                    <li>ML/AI implementation experience</li>
+                    <li>Cloud-native architecture (Azure certified)</li>
+                    <li>Performance optimization specialist</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>🤝 Collaboration Skills</h3>
+                <ul>
+                    <li>Experience with diverse stakeholders</li>
+                    <li>RFC process leadership</li>
+                    <li>Technical documentation expertise</li>
+                    <li>Ability to translate tech to business value</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>💡 Healthcare Mindset</h3>
+                <ul>
+                    <li>Focus on reliability and accuracy</li>
+                    <li>Understanding of regulated environments</li>
+                    <li>Commitment to impactful solutions</li>
+                    <li>Patient outcome orientation</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="impact-box" style="margin-top: 40px;">
+            <h3>🎯 My Commitment</h3>
+            <p>I bring not just technical skills, but a passion for using technology to make a real difference in healthcare. My experience in building mission-critical systems at scale, combined with my ML expertise, positions me uniquely to help AstraZeneca advance computational pathology from research to clinical impact.</p>
+        </div>
+    </div>
+
+    <!-- Slide 8: Questions & Discussion -->
+    <div class="slide">
+        <h1>Let's Discuss</h1>
+        <p class="subtitle">How We Can Transform Pathology Together</p>
+        
+        <div style="margin: 60px 0;">
+            <h3>Areas for Discussion</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <strong>Current Challenges:</strong> What are the biggest bottlenecks in your computational pathology pipeline?
+                </div>
+                <div class="timeline-item">
+                    <strong>Technology Stack:</strong> How does the team balance cutting-edge AI with production reliability?
+                </div>
+                <div class="timeline-item">
+                    <strong>Clinical Integration:</strong> What's the pathway from algorithm to clinical deployment?
+                </div>
+                <div class="timeline-item">
+                    <strong>Team Dynamics:</strong> How do pathologists, engineers, and data scientists collaborate?
+                </div>
+                <div class="timeline-item">
+                    <strong>Future Vision:</strong> Where do you see computational pathology at AstraZeneca in 3 years?
+                </div>
+            </div>
+        </div>
+        
+        <div class="impact-box" style="margin-top: 60px;">
+            <h2 style="text-align: center; color: #764ba2;">Thank You</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-top: 20px;">
+                I'm excited about the opportunity to contribute to AstraZeneca's mission of transforming patient care through computational pathology.
+            </p>
+            <div style="text-align: center; margin-top: 30px;">
+                <p><strong>Zohair Ajmal</strong></p>
+                <p>zajmal@jacobs-alumni.de | +49 174 605 7730</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            if (n >= totalSlides) currentSlide = 0;
+            if (n < 0) currentSlide = totalSlides - 1;
+            
+            slides[currentSlide].classList.add('active');
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
